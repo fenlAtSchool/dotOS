@@ -7,7 +7,7 @@ a = new Thread(function(){
   api.log('Bye')
 })
 */
-let m = {
+{
 info: {
   name: 'async',
   version: '1.0.0',
