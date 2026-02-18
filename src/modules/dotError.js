@@ -29,6 +29,9 @@
       		{str: `>| ${dotError.src[dotError.point]}\n`, style: {color: 'lightblue'}},
       		{str: m.join('\n'), style: {color: 'orange'}}
       ])
+      	},
+      	hasError(){
+      		return dotError.point !== ''
       	}
       }
     }
