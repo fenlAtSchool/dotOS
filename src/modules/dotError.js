@@ -28,10 +28,7 @@
       		api.broadcastMessage([{str: `Line ${dotError.point}: ${dotError.e.message}\n`, style: {color: 'orange'}},
       		{str: `>| ${dotError.src[dotError.point]}\n`, style: {color: 'lightblue'}},
       		{str: m.join('\n'), style: {color: 'orange'}}
-          ])
-      	},
-      	hasError(){
-      		return (dotError.point !== '')
+      ])
       	}
       }
     }
