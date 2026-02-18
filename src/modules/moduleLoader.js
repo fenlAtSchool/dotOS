@@ -1,0 +1,64 @@
+{
+  info: {
+    name: 'moduleLoader',
+    type: 'worldcode',
+    version: '1.0.0',
+    source: 'github.com/tendergalaxy/dotOS/blob/main/src/modules/moduleLoader.js',
+    requirements: []
+  },
+  callbacks: {
+    onLoad(){
+      globalThis.dotOS ??= {}
+      dotOS.module ??= {}
+      dotOS.callbacks ??= {}
+      let callbacks = 'tick onClose onPlayerJoin onPlayerLeave onPlayerJump onRespawnRequest playerCommand onPlayerChat onPlayerChangeBlock onPlayerDropItem onPlayerPickedUpItem onPlayerSelectInventorySlot onBlockStand onPlayerAttemptCraft onPlayerCraft onPlayerAttemptOpenChest onPlayerOpenedChest onPlayerMoveItemOutOfInventory onPlayerMoveInvenItem onPlayerMoveItemIntoIdxs onPlayerSwapInvenSlots onPlayerMoveInvenItemWithAmt onPlayerAttemptAltAction onPlayerAltAction onPlayerClick onClientOptionUpdated onMobSettingUpdated onInventoryUpdated onChestUpdated onWorldChangeBlock onCreateBloxdMeshEntity onEntityCollision onPlayerAttemptSpawnMob onWorldAttemptSpawnMob onPlayerSpawnMob onWorldSpawnMob onWorldAttemptDespawnMob onMobDespawned onPlayerAttack onPlayerDamagingOtherPlayer onPlayerDamagingMob onMobDamagingPlayer onMobDamagingOtherMob onAttemptKillPlayer onPlayerKilledOtherPlayer onMobKilledPlayer onPlayerKilledMob onMobKilledOtherMob onPlayerPotionEffect onPlayerDamagingMeshEntity onPlayerBreakMeshEntity onPlayerUsedThrowable onPlayerThrowableHitTerrain onTouchscreenActionButton onTaskClaimed onChunkLoaded onPlayerRequestChunk onItemDropCreated onPlayerStartChargingItem onPlayerFinishChargingItem onPlayerFinishQTE doPeriodicSave'
+      callbacks = callbacks.split(' ')
+      for(let i of callbacks){
+        dotOS.callbacks[i] = []
+      }
+      globalThis.module = {
+        callbacks: ["tick","onClose","onPlayerJoin","onPlayerLeave","onPlayerJump","onRespawnRequest","playerCommand","onPlayerChat","onPlayerChangeBlock","onPlayerDropItem","onPlayerPickedUpItem","onPlayerSelectInventorySlot","onBlockStand","onPlayerAttemptCraft","onPlayerCraft","onPlayerAttemptOpenChest","onPlayerOpenedChest","onPlayerMoveItemOutOfInventory","onPlayerMoveInvenItem","onPlayerMoveItemIntoIdxs","onPlayerSwapInvenSlots","onPlayerMoveInvenItemWithAmt","onPlayerAttemptAltAction","onPlayerAltAction","onPlayerClick","onClientOptionUpdated","onMobSettingUpdated","onInventoryUpdated","onChestUpdated","onWorldChangeBlock","onCreateBloxdMeshEntity","onEntityCollision","onPlayerAttemptSpawnMob","onWorldAttemptSpawnMob","onPlayerSpawnMob","onWorldSpawnMob","onWorldAttemptDespawnMob","onMobDespawned","onPlayerAttack","onPlayerDamagingOtherPlayer","onPlayerDamagingMob","onMobDamagingPlayer","onMobDamagingOtherMob","onAttemptKillPlayer","onPlayerKilledOtherPlayer","onMobKilledPlayer","onPlayerKilledMob","onMobKilledOtherMob","onPlayerPotionEffect","onPlayerDamagingMeshEntity","onPlayerBreakMeshEntity","onPlayerUsedThrowable","onPlayerThrowableHitTerrain","onTouchscreenActionButton","onTaskClaimed","onChunkLoaded","onPlayerRequestChunk","onItemDropCreated","onPlayerStartChargingItem","onPlayerFinishChargingItem","onPlayerFinishQTE","doPeriodicSave"],
+        refreshOnLoad: true,
+        load(name){
+          let t = FS.get(`dotOS/modules/${name}.js`)
+          let temp = eval('let output = ' + t + '; output')
+          dotOS.module[temp.info.name] = temp
+          temp = null
+          if(module.refreshOnLoad){
+            module.refreshModules()
+          }
+        },
+        resetAllCallbacks(){
+          for(let i of module.callbacks){
+            dotOS.callbacks[i] = []
+          }
+        },
+        refreshModules(){
+          module.resetAllCallbacks()
+          for(let [i, j] of Object.entries(dotOS.module)){
+            j = j.callbacks
+            for(let [k, l] of Object.entries(j)){
+              if(l.name == 'onLoad'){
+                l()
+              } else {
+                dotOS.callbacks[i].push(() => l())
+              }
+            }
+          }
+          module.setCallbacks()
+        },
+        setCallbacks(){
+          for(let name of module.callbacks){
+            globalThis[name] = function(){
+              t = ''
+              for(let i of dotOS.callbacks[name]){
+                t = i()
+              }
+              return t
+            }
+          }
+        }
+      }
+    }
+  }
+}
