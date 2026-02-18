@@ -18,6 +18,16 @@
       			dotError.point = +e.stack.split(' ')[6].slice(9).replace(')\n', '') - 3
       		}
       	},
+        tryFunction(code, ...args){
+          dotError.point = ''
+      		dotError.src = code.split(/[\n;]+/)
+      		try{
+      			code(args)
+      		} catch(e){
+      			dotError.e = e
+      			dotError.point = +e.stack.split(' ')[6].slice(9).replace(')\n', '') - 3
+      		}
+        },
       	log(){
       		if(dotError.point === ''){
       			api.broadcastMessage('No Errors Found!', {color: 'red'})
