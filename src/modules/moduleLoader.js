@@ -21,7 +21,11 @@
         refreshOnLoad: true,
         load(name){
           let t = FS.get(`dotOS/modules/${name}.js`)
-          let temp = eval('let output = ' + t + '; output')
+          let temp = dotError.try('return ' + t)()
+          if(dotError.hasError()){
+            dotError.log()
+            throw new Error(`moduleLoader: Error loading module ${name}`)
+          }
           dotOS.module[temp.info.name] = temp
           temp = null
           if(module.refreshOnLoad){
