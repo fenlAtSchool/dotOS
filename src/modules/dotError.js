@@ -2,6 +2,7 @@
   info: {
     name: 'dotError',
     type: 'worldcode',
+    version: '1.0.0',
     source: 'github.com/tendergalaxy/dotOS/blob/main/src/modules/dotError.js',
     requirements: []
   },
