@@ -47,7 +47,6 @@
               }
             }
           }
-          dotModule.setCallbacks()
         },
         setCallbacks(){
           for(let name of dotModule.callbacks){
@@ -61,6 +60,7 @@
           }
         }
       }
+      dotModule.setCallbacks()
     }
   }
 }
