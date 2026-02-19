@@ -54,6 +54,9 @@
               t = undefined
               for(let i of dotOS.callbacks[name]){
                 t = dotError.tryFunction(i, ...args)
+                if(dotError.hasError()){
+                  dotError.log()
+                }
               }
               return t
             }
