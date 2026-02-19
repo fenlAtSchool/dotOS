@@ -51,7 +51,7 @@
         setCallbacks(){
           for(let name of dotModule.callbacks){
             globalThis[name] = function(...args){
-              t = ''
+              t = undefined
               for(let i of dotOS.callbacks[name]){
                 t = i(...args)
               }
