@@ -1,5 +1,5 @@
 
-{
+t = {
   /* osTS */
 /* The DotOS Task Scheduler */
   info: {
@@ -43,7 +43,7 @@
         },
         cancelSpecific(delay, fname){
           let t = []
-          for(let i of TS.stack[TS.tick + delay){
+          for(let i of TS.stack[TS.tick + delay]){
             if(i.name !== fname){
               t.push(i)
             }
