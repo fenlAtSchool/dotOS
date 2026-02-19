@@ -1,4 +1,5 @@
 {
+  // todo: replace all instances of module with dotModule, as module is a reserved keyword in many environments
   info: {
     name: 'moduleLoader',
     type: 'worldcode',
@@ -16,7 +17,7 @@
       for(let i of callbacks){
         dotOS.callbacks[i] = []
       }
-      globalThis.module = {
+      globalThis.dotModule = {
         callbacks: ["tick","onClose","onPlayerJoin","onPlayerLeave","onPlayerJump","onRespawnRequest","playerCommand","onPlayerChat","onPlayerChangeBlock","onPlayerDropItem","onPlayerPickedUpItem","onPlayerSelectInventorySlot","onBlockStand","onPlayerAttemptCraft","onPlayerCraft","onPlayerAttemptOpenChest","onPlayerOpenedChest","onPlayerMoveItemOutOfInventory","onPlayerMoveInvenItem","onPlayerMoveItemIntoIdxs","onPlayerSwapInvenSlots","onPlayerMoveInvenItemWithAmt","onPlayerAttemptAltAction","onPlayerAltAction","onPlayerClick","onClientOptionUpdated","onMobSettingUpdated","onInventoryUpdated","onChestUpdated","onWorldChangeBlock","onCreateBloxdMeshEntity","onEntityCollision","onPlayerAttemptSpawnMob","onWorldAttemptSpawnMob","onPlayerSpawnMob","onWorldSpawnMob","onWorldAttemptDespawnMob","onMobDespawned","onPlayerAttack","onPlayerDamagingOtherPlayer","onPlayerDamagingMob","onMobDamagingPlayer","onMobDamagingOtherMob","onAttemptKillPlayer","onPlayerKilledOtherPlayer","onMobKilledPlayer","onPlayerKilledMob","onMobKilledOtherMob","onPlayerPotionEffect","onPlayerDamagingMeshEntity","onPlayerBreakMeshEntity","onPlayerUsedThrowable","onPlayerThrowableHitTerrain","onTouchscreenActionButton","onTaskClaimed","onChunkLoaded","onPlayerRequestChunk","onItemDropCreated","onPlayerStartChargingItem","onPlayerFinishChargingItem","onPlayerFinishQTE","doPeriodicSave"],
         refreshOnLoad: true,
         load(name){
@@ -28,17 +29,17 @@
           }
           dotOS.module[temp.info.name] = temp
           temp = null
-          if(module.refreshOnLoad){
-            module.refreshModules()
+          if(dotModule.refreshOnLoad){
+            dotModule.refreshModules()
           }
         },
         resetAllCallbacks(){
-          for(let i of module.callbacks){
+          for(let i of dotModule.callbacks){
             dotOS.callbacks[i] = []
           }
         },
         refreshModules(){
-          module.resetAllCallbacks()
+          dotModule.resetAllCallbacks()
           for(let [i, j] of Object.entries(dotOS.module)){
             j = j.callbacks
             for(let [k, l] of Object.entries(j)){
@@ -49,10 +50,10 @@
               }
             }
           }
-          module.setCallbacks()
+          dotModule.setCallbacks()
         },
         setCallbacks(){
-          for(let name of module.callbacks){
+          for(let name of dotModule.callbacks){
             globalThis[name] = function(){
               t = ''
               for(let i of dotOS.callbacks[name]){
