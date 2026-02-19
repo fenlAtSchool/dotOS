@@ -37,9 +37,9 @@
       		}
       		let m = dotError.e.stack.split('\n')
       		m = Array.from(m, (x) => x.slice(4)).slice(0, m.length - 4)
-      		console.log(`Line ${dotError.point}: ${dotError.e.message}\n`)
-      		console.log(`>| ${dotError.src[dotError.point]}\n`)
-      		console.log(m.join('\n'))
+      		api.broadcastMessage([{str: `Line ${dotError.point}: ${dotError.e.message}\n`, style: {color: 'orange'}},
+      		{str: `>| ${dotError.src[dotError.point]}\n`, style: {color: 'lightblue'}},
+      		{str: m.join('\n'), style: {color: 'orange'}}
       	},
       	hasError(){
       		return dotError.point !== ''
