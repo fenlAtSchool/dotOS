@@ -53,10 +53,10 @@
         },
         setCallbacks(){
           for(let name of dotModule.callbacks){
-            globalThis[name] = function(){
+            globalThis[name] = function(...args){
               t = ''
               for(let i of dotOS.callbacks[name]){
-                t = i()
+                t = i(...args)
               }
               return t
             }
