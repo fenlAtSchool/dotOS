@@ -20,14 +20,14 @@ t = {
         tick: 0,
         scheduleFirstUnused(action){
           TS.lastUsedTick = Math.max(TS.lastUsedTick, TS.tick+1)
-          TS.stack[TS.lastUsedTick] = [action]
+          TS.work[TS.lastUsedTick] = [action]
           TS.lastUsedTick++
         },
         scheduleNextTick(action){
-          if(TS.stack?.[TS.tick + 1]){
-            TS.stack[TS.tick + 1].push(action)
+          if(TS.work?.[TS.tick + 1]){
+            TS.work[TS.tick + 1].push(action)
           } else {
-            TS.stack[TS.tick + 1] = [action]
+            TS.work[TS.tick + 1] = [action]
           }
         },
         setTimeout(action, delay){
@@ -35,20 +35,20 @@ t = {
             throw new ValueError('TS.setTimeout recieved a negative delay value.')
           }
           TS.lastUsedTick = Math.max(TS.lastUsedTick, TS.tick + delay)
-          if(TS.stack?.[TS.tick + delay]){
-            TS.stack[TS.tick + delay].push(action)
+          if(TS.work?.[TS.tick + delay]){
+            TS.work[TS.tick + delay].push(action)
           } else {
             TS.stack[TS.tick + delay] = [action]
           }
         },
         cancelSpecific(delay, fname){
           let t = []
-          for(let i of TS.stack[TS.tick + delay]){
+          for(let i of TS.work[TS.tick + delay]){
             if(i.name !== fname){
               t.push(i)
             }
           }
-          TS.stack[TS.tick + delay] = t
+          TS.work[TS.tick + delay] = t
         }
       }
     },
@@ -62,7 +62,7 @@ t = {
       }
       while(stack.length > 0){
         eval()
-        dotError.tryFunction(stack.shift())
+        dotError.tryFunction(TS.stack.shift())
         if(dotError.hasError()){
           dotError.log()
         }
