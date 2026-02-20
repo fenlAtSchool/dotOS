@@ -38,7 +38,7 @@ t = {
           if(TS.work?.[TS.tick + delay]){
             TS.work[TS.tick + delay].push(action)
           } else {
-            TS.stack[TS.tick + delay] = [action]
+            TS.work[TS.tick + delay] = [action]
           }
         },
         cancelSpecific(delay, fname){
@@ -56,7 +56,7 @@ t = {
       TS.tick++
       if(!TS.work?.[TS.tick]) return
       if(TS.prioritizeUnfinishedWork){
-        TS.stack.extend(TS.work[TS.tick])
+        TS.stack = [...TS.stack, ...TS.work[TS.tick]]
       } else {
         TS.stack = [...TS.work[TS.tick], ...TS.stack]
       }
