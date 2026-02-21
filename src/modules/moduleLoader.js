@@ -1,5 +1,5 @@
 //callbacks is predefined in wc, is fine to use
-otp = {
+let otp = {
   info: {
     name: 'moduleLoader',
     type: 'worldcode',
