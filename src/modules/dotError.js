@@ -1,4 +1,4 @@
-{
+otp = {
   info: {
     name: 'dotError',
     type: 'worldcode',
@@ -46,4 +46,4 @@
       }
     }
   }
-}
+}; otp
