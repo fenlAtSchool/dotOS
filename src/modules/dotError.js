@@ -40,7 +40,7 @@
         	api.broadcastMessage([{str: `Line ${this.point}: ${this.e.message}\n`, style: {color: 'orange'}},
         	{str: `>| ${this.src[this.point]}\n`, style: {color: 'lightblue'}},
         	{str: m.join('\n'), style: {color: 'orange'}}])
-        },
+        }
         hasError(){
         	return this.point !== ''
         }
