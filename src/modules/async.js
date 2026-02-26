@@ -41,7 +41,7 @@ onLoad(){
       }
     }
     setTask(f){
-      this.task = f
+      this.task = f()
       this.idle = false
       TS.scheduleFirstUnused(() => (this.tick()))
     }
