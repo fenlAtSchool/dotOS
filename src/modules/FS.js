@@ -4,7 +4,7 @@
     type: 'worldcode', // unfortunately, async library is os-scoped, so we can't use it here
     version: '1.0.0',
     source: 'github.com/tendergalaxy/dotOS/blob/main/src/modules/FS.js',
-    requirements: []
+    requirements: [],
     standard: true
   },
   callbacks: {
