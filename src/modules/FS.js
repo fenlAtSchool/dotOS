@@ -62,6 +62,9 @@
           if((typeof x) === 'string'){
             x = x.split('/')
           }
+          if(file in this.fileNameCache){
+            return this.fileNameCache[file]
+          }
           let filesInDir;
           for(let name of x){
              start = FS.getFile(name).contents
@@ -71,6 +74,7 @@
             }
             start = start[filesInDir.indexOf(name)]
           }
+          this.fileNameCache[file] = f
           return f
         }
         setFileHeader(file, header){
