@@ -8,8 +8,8 @@
   },
   callbacks: {
     onLoad(){
-      globalThis.JSON.loadFile = function*(f){
-        return eval('let obj = ' + FS.async.getFile(f) + '; obj')
+      globalThis.JSON.loadFile = function(f){
+        return eval('let obj = ' + FS.getFile(f) + '; obj')
       }
     }
   }
