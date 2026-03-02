@@ -8,6 +8,31 @@
   },
   callbacks: {
     onLoad(){
+      class fnvHash {
+          offset = 0x811c9dc5
+          prime = 0x01000193
+          hash(arr){
+              let v = this.offset >>> 0
+              for(let i of arr){
+                  v ^= i
+                  v = Math.imul(v, this.prime)
+              }
+              return v
+      }
+      strToArr(str){
+        let ans = new Uint8Array(str.length * 2), v
+        for(let i = 0; i < str.length; i++){
+          v = str[i].codePointAt()
+          ans[2*i] = v >> 8
+          ans[2*i + 1] = v & 255
+        }
+          return ans
+        }
+        hashStr(str){
+          return this.hash(this.strToArr(str))
+        }
+      }
+      globalThis.hash = new fnvHash()
       globalThis.disk = class {
         constructor(disk){
           this.disk = disk
