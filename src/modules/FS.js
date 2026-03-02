@@ -118,6 +118,14 @@
           children: ['async.js', 'FS.js', ...etc]
         }
         */
+        /*
+        Contents of a file:
+        Header: {
+          name: 'FS'
+          extension: 'js'
+          len: 5
+        }
+        */
         constructor(disk){
           this.disk = disk
           this.hash = new fnvHash()
@@ -125,7 +133,7 @@
         getFile_internal(hex){
           let head = this.getFileHeader_internal(hex)
           let out = ''
-          for(let i = 1; i <= head.length; i++){
+          for(let i = 1; i <= head.len; i++){
             out += getFChapter(hex, i).reduce((a, b) => (a + b), '')
           }
           return out
