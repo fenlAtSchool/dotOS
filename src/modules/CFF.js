@@ -10,7 +10,7 @@
     onLoad(){
       globalThis.CFF = class {
         constructor(){}
-        setModule()
+        setModule(){}
       }
     }
   }
