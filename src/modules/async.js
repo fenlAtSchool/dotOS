@@ -18,7 +18,7 @@ info: {
 callbacks: {
 
 onLoad(){
-  globalThis.Thread = new class{
+  globalThis.Thread = class {
     constructor(func){
       this.task = func()
       this.idle = false
@@ -51,12 +51,12 @@ onLoad(){
       yield* threadLibs.sleep_internal(TS.tick + ms)
     },
     *sleep_internal(del){
-      if(TS.tick < del){
+      while(TS.tick < del){
         yield
       }
     },
     *waitUntil(condition){
-      if(!condition){
+      while(!condition){
         yield
       }
     }
