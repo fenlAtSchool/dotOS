@@ -130,7 +130,7 @@
           this.disk = disk
           this.hash = new fnvHash()
         }
-        getFile_internal(hex){
+        _getFile(hex){
           let head = this.getFileHeader_internal(hex)
           let out = ''
           for(let i = 1; i <= head.len; i++){
@@ -158,7 +158,7 @@
         getFile(f){
           return this._getFile(this.hash.hashStr(f))
         }
-        _setFile(f, contents){
+        _setFile(file, contents){
           let descs = contents.match(/[^]{1,450}/g)
           let chunks = []
           for(let i = 0; i < descs.length; i += 36){
