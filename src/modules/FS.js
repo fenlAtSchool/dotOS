@@ -126,9 +126,10 @@
           len: 5
         }
         */
-        constructor(disk){
+        constructor(disk, name){
           this.disk = disk
           this.hash = new fnvHash()
+          this.name = name
         }
         _getFile(hex){
           let head = this.getFileHeader_internal(hex)
@@ -168,11 +169,12 @@
           this.setFSlot(file, 0, 0, JSON.stringify({
             len: len
           }))
+          let name = this.name
           for(let i = 0; i < len; i++){
             TS.setTimeout(function(){
               let f = chunks[i]
               for(let j = 0; j < f.length; j++){
-                this.setFSlot(file, i+1, j, chunks[i][j])
+                globalThis[name].setFSlot(file, i+1, j, chunks[i][j])
               }
             }, i+1)
           }
@@ -218,7 +220,7 @@
             }, i)
           }*/
       }
-      globalThis.FS = new disk(-1728)
+      globalThis.FS = new disk(-1728, 'FS')
     }
   }
 }
