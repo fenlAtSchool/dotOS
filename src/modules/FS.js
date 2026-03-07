@@ -123,8 +123,6 @@
         /*
         Contents of a file:
         Header: {
-          name: 'FS'
-          extension: 'js'
           len: 5
         }
         */
@@ -140,7 +138,7 @@
           }
           return out
         }
-        getFileHeader_internal(hex){
+        _getFileHeader(hex){
           return JSON.parse(this.getFSlot(hex, 0, 0))
         }
         getFSlot(f, chapter, idx){
@@ -155,13 +153,13 @@
           api.setStandardChestItemSlot([f-400000, this.disk, chapter], idx, 'Net', 1, undefined, {customDescription: n})
         }
         getFileHeader(f){
-          return this.getFileHeader_internal(this.hash.hashStr(f))
+          return this._getFileHeader(this.hash.hashStr(f))
         }
         getFile(f){
-          return this.getFile_internal(this.hash.hashStr(f))
+          return this._getFile(this.hash.hashStr(f))
         }
-        setFile_internal(f, contents){
-          let descs = JSON.stringify(contents).match(/[^]{1,450}/g)
+        _setFile(f, contents){
+          let descs = contents.match(/[^]{1,450}/g)
           let chunks = []
           for(let i = 0; i < descs.length; i += 36){
             chunks.push(descs.slice(i, i + 36))
@@ -180,7 +178,24 @@
           }
         }
         setFile(f, contents){
-          this.setFile_internal(this.hash.hashStr(f), contents)
+          this._setFile(this.hash.hashStr(f), contents)
+        }
+        _addFileToDir(dir, name){
+          let m = this.hash.hashStr(parent)
+          let l = JSON.parse(this._getFile(m))
+          l[l.length] = name
+          this._setFile(m, l)
+        }
+        _removeFileFromDir(dir, name){
+          let m = this.hash.hashStr(parent)
+          let l = JSON.parse(this._getFile(m))
+          l.splice(l.indexOf(name), 1)
+          this._setFile(m, l)
+        }
+        newFile(parent, name, contents){
+          let l = JSON.parse(this.getFile(parent))
+          
+          this.setFile(parent + name, contents)
         }
         /*let descs = JSON.stringify(contents.contents).match(/[^]{1,450}/g)
           let chunks = []
