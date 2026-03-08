@@ -153,7 +153,7 @@
         setFSlot(f, chapter, idx, n){
           api.setStandardChestItemSlot([f-400000, this.disk, chapter], idx, 'Net', 1, undefined, {customDescription: n})
         }
-        isPlaceLoaded(f, chapter){
+        _isPlaceLoaded(f, chapter){
           return (api.getBlockId(f-400000, this.disk, chapter) != 'Unloaded')
         }
         getFileHeader(f){
@@ -201,17 +201,20 @@
           this._addFileToDir(parent, name)
           this.setFile(parent + '/' + name, contents)
         }
-        isFileLoaded(f){
-          if(!this.isPlaceLoaded(f, 0)){
+        _isFileLoaded(f){
+          if(!this._isPlaceLoaded(f, 0)){
             return false
           }
-          let t = this.getFileHeader(f).len >> 5
+          let t = this._getFileHeader(f).len >> 5
           for(let i = 1; i < t + 1; i++){
-            if(!this.isPlaceLoaded(f, i << 5)){
+            if(!this._isPlaceLoaded(f, i << 5)){
               return false
             }
           }
           return true
+        }
+        isFileLoaded(f){
+          return this._isFileLoaded(this.hash.hashStr(f))
         }
         /*let descs = JSON.stringify(contents.contents).match(/[^]{1,450}/g)
           let chunks = []
