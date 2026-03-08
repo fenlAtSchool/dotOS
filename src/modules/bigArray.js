@@ -8,7 +8,7 @@
   },
   callbacks: {
     onLoad(){
-      // THIS CODE WAS WRITTEN BY GLITCHHUNTER AND REUSED
+      // THIS CODE WAS WRITTEN BY NICKNAME AND REUSED
       globalThis.bigArray = class {
         #pool = (0, eval)("[" + "[],".repeat(5220) + "]")
         #lastIndex;
