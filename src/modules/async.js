@@ -56,7 +56,7 @@ onLoad(){
       }
     },
     *waitUntil(condition){
-      while(!condition){
+      while(!(condition())){
         yield
       }
     }
