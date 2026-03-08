@@ -17,11 +17,21 @@
         *setFileAsync(f, c){
           let t = this.hash.hashStr(f)
           yield* this._loadFile(t)
-          yield this.setFile(f, c)
+          yield this._setFile(f, c)
+        }
+        *newFileAsync(p, n, c){
+          yield* this.loadFile(p)
+          yield* this.loadFile(n)
+          yield this.newFile(p, n, c)
         }
         *_loadFile(f){
-          yield this._isFileLoaded(f)
-          yield this._isFileLoaded(f)
+          let t = this._isFileLoaded(f)
+          if(!t){
+            yield
+            yield this._isFileLoaded(f)
+          } else {
+            yield
+          }
         }
         *loadFile(f){
           yield* this._loadFile(this.hash.hashStr(f))
