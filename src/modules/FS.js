@@ -172,12 +172,11 @@
           this.setFSlot(file, 0, 0, JSON.stringify({
             len: len
           }))
-          let name = this.name
           for(let i = 0; i < len; i++){
-            TS.setTimeout(function(){
+            TS.setTimeout(() => {
               let f = chunks[i]
               for(let j = 0; j < f.length; j++){
-                globalThis[name].setFSlot(file, i+1, j, chunks[i][j])
+                this.setFSlot(file, i+1, j, chunks[i][j])
               }
             }, i+1)
           }
