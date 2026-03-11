@@ -12,7 +12,7 @@
         *getFileAsync(f){
           let t = this.hash.hashStr(f)
           yield* this._loadFile(t)
-          yield this._getFile(t)
+          return this._getFile(t)
         }
         *setFileAsync(f, c){
           let t = this.hash.hashStr(f)
@@ -21,7 +21,6 @@
         }
         *newFileAsync(p, n, c){
           yield* this.loadFile(p)
-          yield* this.loadFile(n)
           yield this.newFile(p, n, c)
         }
         *_loadFile(f){
