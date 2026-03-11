@@ -18,8 +18,8 @@
       globalThis.dotModule = {
         callbacks: callbacks,
         refreshOnLoad: true,
-        load(name){
-          let t = FS.get(`dotOS/modules/${name}.js`)
+        *load(name){
+          let t = yield* FS.getFileAsync(`dotOS/modules/${name}.js`)
           let temp = dotError.try('return ' + t)()
           if(dotError.hasError()){
             dotError.log()
