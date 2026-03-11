@@ -154,7 +154,7 @@
           api.setStandardChestItemSlot([f-400000, this.disk, chapter], idx, 'Net', 1, undefined, {customDescription: n})
         }
         _isPlaceLoaded(f, chapter){
-          return (api.getBlockId(f-400000, this.disk, chapter) != 'Unloaded')
+          return (api.getBlockId(f-400000, this.disk, chapter) !== 1)
         }
         getFileHeader(f){
           return this._getFileHeader(this.hash.hashStr(f))
