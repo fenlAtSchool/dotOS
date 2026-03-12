@@ -147,7 +147,8 @@
         }
         getFChapter(f, chapter){
           return Array.from(api.getStandardChestItems([f-400000, this.disk, chapter]), function (a){
-            return a.attributes.customDescription
+            let v = a?.attributes?.customDescription
+            return v ? v : ''
           })
         }
         setFSlot(f, chapter, idx, n){
