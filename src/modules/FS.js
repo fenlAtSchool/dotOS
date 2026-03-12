@@ -186,16 +186,14 @@
           this._setFile(this.hash.hashStr(f), contents)
         }
         _addFileToDir(dir, name){
-          let m = this.hash.hashStr(parent)
-          let l = JSON.parse(this._getFile(m))
+          let l = JSON.parse(this._getFile(dir))
           l[l.length] = name
-          this._setFile(m, l)
+          this._setFile(dir, l)
         }
         _removeFileFromDir(dir, name){
-          let m = this.hash.hashStr(parent)
-          let l = JSON.parse(this._getFile(m))
+          let l = JSON.parse(this._getFile(dir))
           l.splice(l.indexOf(name), 1)
-          this._setFile(m, l)
+          this._setFile(dir, l)
         }
         newFile(parent, name, contents){
           this._addFileToDir(parent, name)
