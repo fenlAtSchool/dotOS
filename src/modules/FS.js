@@ -132,7 +132,7 @@
           this.name = name
         }
         _getFile(hex){
-          let head = this.getFileHeader_internal(hex)
+          let head = this._getFileHeader(hex)
           let out = ''
           for(let i = 1; i <= head.len; i++){
             out += getFChapter(hex, i).reduce((a, b) => (a + b), '')
