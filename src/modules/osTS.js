@@ -60,6 +60,7 @@
       } else {
         TS.stack = [...TS.work[TS.tick], ...TS.stack]
       }
+      TS.work[TS.tick] = null
       let f;
       while(TS.stack.length > 0){
         eval()
