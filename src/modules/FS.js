@@ -142,7 +142,7 @@
           return JSON.parse(this.getFSlot(hex, 0, 0))
         }
         getFSlot(f, chapter, idx, disk = this.disk){
-          return api.getStandardChestItemSlot([f-400000, disk, chapter], idx).attributes.customDescription
+          return api.getStandardChestItemSlot([f-400000, disk, chapter], idx)?.attributes?.customDescription
         }
         getFChapter(f, chapter, disk = this.disk){
           return Array.from(api.getStandardChestItems([f-400000, disk, chapter]), function (a){
@@ -192,7 +192,7 @@
         _removeFileFromDir(dir, name){
           let l = JSON.parse(this._getFile(dir))
           l.splice(l.indexOf(name), 1)
-          this._setFile(dir, l)
+          this._setFile(dir, JSON.stringify(l)(
         }
         newFile(parent, name, contents){
           this._addFileToDir(this.hash.hashStr(parent), this.hash.hashStr(name))
@@ -204,7 +204,11 @@
           if(!this._isPlaceLoaded(f, 0)){
             return false
           }
-          let t = this._getFileHeader(f).len >> 5
+          let t = this._getFileHeader(f)
+          if(!t){
+            return true
+          }
+          t = t.len >> 5
           for(let i = 1; i < t + 1; i++){
             if(!this._isPlaceLoaded(f, i << 5)){
               return false
