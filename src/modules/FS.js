@@ -174,11 +174,11 @@
             len: len
           }))
           for(let i = 0; i < len; i++){
-            TS.setTimeout((f, i, file) => {
+            TS.setTimeout((f, i, file, func) => {
               for(let j = 0; j < f.length; j++){
-                this.setFSlot(file, i+1, j, f[j])
+                func(file, i+1, j, f[j])
               }
-            }, i+1, f, i, file)
+            }, i+20, chunks[i], i, file, this.setFSlot)
           }
           return len + 1
         }
