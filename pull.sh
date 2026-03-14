@@ -3,4 +3,5 @@ cd "$(dirname "$0")" || exit
 echo "Updating repo..."
 git pull origin main
 echo "Building dotOS…"
+pip install -r requirements.txt
 python3 build.py
