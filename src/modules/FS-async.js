@@ -32,6 +32,15 @@
         *loadFile(f){
           yield* this._loadFile(this.hash.hashStr(f))
         }
+        *forceSetFile(p, n, c){
+          yield* this.loadFile(p)
+          yield* this.loadFile(p + '/' + n)
+          if(this.isFileValid(p)){
+            yield* this.setFile(p + '/' + n, c)
+          } else {
+            yield* this.newFile(p, n, c)
+          }
+        }
       }
       globalThis.FS = new asyncFS(-1728)
     }
