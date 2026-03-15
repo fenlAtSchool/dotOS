@@ -17,12 +17,12 @@
         *setFileAsync(f, c){
           let t = this.hash.hashStr(f)
           yield* this._loadFile(t)
-          yield this._setFile(f, c)
+          this._setFile(f, c)
         }
         *newFileAsync(p, n, c){
           yield* this.loadFile(p)
           yield* this.loadFile(p + '/' + n)
-          yield this.newFile(p, n, c)
+          this.newFile(p, n, c)
         }
         *_loadFile(f){
           while(!this._isFileLoaded(f)){
@@ -36,9 +36,16 @@
           yield* this.loadFile(p)
           yield* this.loadFile(p + '/' + n)
           if(this.isFileValid(p)){
-            yield* this.setFile(p + '/' + n, c)
+            this.setFile(p + '/' + n, c)
           } else {
-            yield* this.newFile(p, n, c)
+            this.newFile(p, n, c)
+          }
+        }
+        *setFileDefault(p, n, c){
+          yield* this.loadFile(p)
+          if(!this.isFileValid(p)){
+            yield* this.loadFile(p + '/' + n)
+            this.newFile(p, n, c)
           }
         }
       }
