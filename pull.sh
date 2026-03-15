@@ -9,7 +9,7 @@ git reset --hard origin/main || {
   echo "whgarrr?"
   exit
 }
-echo "Building dotOS…"
+echo "Building dotOS..."
 pip install -r requirements.txt || {
   echo "Install python!"
   exit
