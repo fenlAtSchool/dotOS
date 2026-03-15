@@ -178,7 +178,7 @@
               for(let j = 0; j < f.length; j++){
                 func(file, i+1, j, f[j], disk)
               }
-            }, i+20, chunks[i], i, file, this.setFSlot, this.disk)
+            }, i+1, chunks[i], i, file, this.setFSlot, this.disk)
           }
           return len + 1
         }
