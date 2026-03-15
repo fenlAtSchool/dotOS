@@ -5,7 +5,7 @@ A multithreaded modularized Operating System that simplifies codeloading, FS, an
 ## Building the OS
 1. Clone this repository:
 ```bash
-git clone "https://www.github.com/tendergalaxy/dotOS"
+git clone https://github.com/TenderGalaxy/dotOS
 ```
 2. Build the repository into bloxd code:
 ```bash
