@@ -74,9 +74,9 @@ to compile modules into separate code blocks and world code.
 worldcode.write(_)
 worldcode.write('dotOS = {}\n')
 codeblock.write(_)
-codeblock.write('''FS.setFile('System', '[]')
-FS.newFile('System', 'Data', '[]')
-FS.newFile('System', 'Modules', '[]')\n''')
+codeblock.write('''
+toUpload = []
+''')
 wcCallbacks = []
 cbName = []
 cbCode = []
@@ -130,8 +130,7 @@ for i in dir:
   with open('src/data/' + i) as f:
     name = i[:i.rfind('.')]
     extend = i[i.rfind('.')+1:]
-    codeblock.write(f'''FS.newFile('System/Data', '{i}', JSON.stringify({f.read()}))
-    // Initializes file {i}''')
+    codeblock.write(f'toUpload.push(\{name: {i}, contents: JSON.stringify({f.read()})\})')
 for i in wcCallbacks:
   worldcode.write(i)
 t = orderArray(cbName[:], requirements)
