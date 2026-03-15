@@ -4,7 +4,7 @@
     type: 'os',
     version: '1.0.0',
     source: 'github.com/fenlAtSchool/dotOS/blob/main/src/modules/CFF.js',
-    requirements: ['jsonLoad']
+    requirements: ['jsonLoad', 'FS-async', 'async']
   },
   callbacks: {
     onLoad(){
