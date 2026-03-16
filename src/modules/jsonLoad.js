@@ -1,4 +1,4 @@
-{
+let obj = {
   info: {
     name: 'jsonLoad',
     type: 'os',
@@ -15,3 +15,4 @@
     }
   }
 }
+obj

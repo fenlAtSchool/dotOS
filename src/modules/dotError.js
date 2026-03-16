@@ -1,4 +1,4 @@
-{
+let obj = {
   info: {
     name: 'dotError',
     type: 'worldcode',
@@ -49,3 +49,4 @@
     }
   }
 }
+obj

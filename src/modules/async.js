@@ -1,4 +1,4 @@
-{
+let obj = {
   /*
 Sample code:
 
@@ -65,3 +65,4 @@ onLoad(){
 
 }
 }
+obj

@@ -1,5 +1,5 @@
 //callbacks is predefined in wc, is fine to use
-{
+let obj = {
   info: {
     name: 'moduleLoader',
     type: 'worldcode',
@@ -17,7 +17,7 @@
         refreshOnLoad: true,
         *load(name){
           let t = yield* FS.getFileAsync(name)
-          let temp = dotError.try('return ' + t)()
+          let temp = dotError.try(t)()
           if(dotError.hasError()){
             dotError.log()
             throw new Error(`moduleLoader: Error loading module ${name}`)

@@ -1,4 +1,4 @@
-{
+let obj = {
   info: {
     name: 'mountDrive',
     type: 'os',
@@ -36,3 +36,4 @@
     }
   }
 }
+obj

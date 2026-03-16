@@ -1,4 +1,4 @@
-{
+let obj = {
   info: {
     name: 'user',
     type: 'os',
@@ -32,3 +32,4 @@
     }
   }
 }
+obj

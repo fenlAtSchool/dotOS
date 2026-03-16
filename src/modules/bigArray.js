@@ -1,4 +1,4 @@
-{
+let obj = {
   info: {
     name: 'bigArray',
     type: 'os',
@@ -34,3 +34,4 @@
     //
   }
 }
+obj
