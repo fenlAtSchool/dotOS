@@ -1,10 +1,12 @@
 #!/bin/zsh
 cd "$(dirname "$0")" || exit
 echo "Updating repo..."
-#git reset --hard origin/main || {
-#  echo "Install git!"
-#  exit
-#}
+if [ "$1" != "-k" ] then
+  git reset --hard origin/main || {
+    echo "Install git!"
+    exit
+  }
+fi
 echo "Building dotOS..."
 pip install -r requirements.txt || {
   echo "Install python!"
