@@ -1,4 +1,4 @@
-let obj = {
+obj = {
   info: {
     name: 'FS-async',
     type: 'os',

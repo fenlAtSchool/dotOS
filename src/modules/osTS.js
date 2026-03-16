@@ -1,5 +1,4 @@
-
-let obj = {
+obj = {
   /* osTS */
 /* The DotOS Task Scheduler */
   info: {

@@ -1,5 +1,5 @@
 //callbacks is predefined in wc, is fine to use
-let obj = {
+obj = {
   info: {
     name: 'moduleLoader',
     type: 'worldcode',

@@ -1,4 +1,4 @@
-let obj = {
+obj = {
   info: {
     name: 'FS',
     type: 'worldcode', // unfortunately, async library is os-scoped, so we can't use it here

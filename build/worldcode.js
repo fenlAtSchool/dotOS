@@ -66,7 +66,7 @@ dotOS = {}
         refreshOnLoad: true,
         *load(name){
           let t = yield* FS.getFileAsync(name)
-          let temp = dotError.try('return ' + t)()
+          let temp = dotError.try(t)()
           if(dotError.hasError()){
             dotError.log()
             throw new Error(`moduleLoader: Error loading module ${name}`)
@@ -109,7 +109,6 @@ dotOS = {}
           }
         }
       }
-      dotModule.resetAllCallbacks()
       dotModule.setCallbacks()
       callbacks = null
    
@@ -369,27 +368,6 @@ dotOS = {}
         isFileValid(f){
           return this.getFileHeader(f) ? true : false
         }
-        /*let descs = JSON.stringify(contents.contents).match(/[^]{1,450}/g)
-          let chunks = []
-          for(let i = 0; i < descs.length; i += 36){
-            chunks.push(descs.slice(i, i + 36))
-          }
-          let len = chunks.length
-          api.setStandardChestItemSlot([file, this.disk, 0], 0, 'Net', 1, undefined, JSON.stringify({
-            name: contents.name,
-            extension: contents.extension,
-            length: len
-          }))
-          for(let i = 1; i <= len; i++){
-            TS.setTimeout(function(){
-              let f = chunks[i]
-              for(let j = 0; j < f.length; j++){
-                api.setStandardChestItemSlot([file, this.disk, i], j, 'Net', 1, undefined, {
-                  customDescription: chunks[i-1][j]
-                })
-              }
-            }, i)
-          }*/
       }
       globalThis.FS = new disk(-1728, 'FS')
    

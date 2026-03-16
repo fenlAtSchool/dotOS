@@ -1,14 +1,10 @@
 #!/bin/zsh
 cd "$(dirname "$0")" || exit
 echo "Updating repo..."
-git fetch origin || {
-  echo "Install git!"
-  exit
-}
-git reset --hard origin/main || {
-  echo "whgarrr?"
-  exit
-}
+#git reset --hard origin/main || {
+#  echo "Install git!"
+#  exit
+#}
 echo "Building dotOS..."
 pip install -r requirements.txt || {
   echo "Install python!"
