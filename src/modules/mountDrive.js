@@ -24,7 +24,7 @@ obj = {
 				}
 				yield* FS.forceSetFile('dotOS', 'data', '[]')
 				api.log('Drive mounted!')
-
+				return
 			})
 			mountDrive.threads.files = new Thread(function* () {
 				yield* threadLibs.waitUntil(() => (mountDrive.threads.mount.isIdle()))
@@ -33,6 +33,7 @@ obj = {
 				}
 				mountDrive.filesLoaded = true
 				api.log('Finished loading files!')
+				return
 			})
 		}
 	}

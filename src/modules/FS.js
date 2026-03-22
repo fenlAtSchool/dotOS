@@ -208,10 +208,14 @@ obj = {
 				}
 				_addFileToDir(dir, name) {
 					let l = JSON.parse(this._getFile(dir))
-					l[l.length] = name
-					this._setFile(dir, JSON.stringify(l))
+					name = {hash: this.hash.hashStr(name), name: name}
+					if(!(l.includes(name))){
+						l.push(name)
+						this._setFile(dir, JSON.stringify(l))
+					}
 				}
 				_removeFileFromDir(dir, name) {
+					name = {hash: this.hash.hashStr(name), name: name}
 					let l = JSON.parse(this._getFile(dir))
 					l.splice(l.indexOf(name), 1)
 					this._setFile(dir, JSON.stringify(l))
@@ -224,10 +228,28 @@ obj = {
 				 * @param {string} contents - File contents
 				 */
 				newFile(parent, name, contents) {
-					this._addFileToDir(this.hash.hashStr(parent), this.hash.hashStr(name))
+					this._addFileToDir(this.hash.hashStr(parent), name)
 					let ha = this.hash.hashStr(parent + '/' + name)
 					api.setBlock(ha - 400000, this.disk, 0, 'Chest')
 					this._setFile(ha, contents)
+				}
+				/**
+				 * Delete a file
+				 * @memberof FS
+				 * @param {string} parent - Parent directory
+				 * @param {string} name - Individual file name
+				 */
+				deleteFile(parent, name){
+					let fullName = this.hash.hashStr(parent + '/' + name)
+					let t = this._getFileHeader(fullName)
+					this._removeFileFromDir(this.hash.hashStr(parent),name)
+					for(let i = 0; i < t + 1; i++){
+						api.setBlockData(fullName - 400000, this.disk, i, {
+							persisted: {
+								chestStr: '[]'
+							}
+						})
+					}
 				}
 				_isFileLoaded(f) {
 					if (!this._isPlaceLoaded(f, 0)) {
@@ -264,7 +286,7 @@ obj = {
 					return this.getFileHeader(f) ? true : false
 				}
 			}
-			globalThis.FS = new disk(-1728, 'FS')
+			globalThis.FS = new disk(69831, 'FS')
 		}
 	}
 }

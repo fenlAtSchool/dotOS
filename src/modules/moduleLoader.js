@@ -12,11 +12,13 @@ obj = {
 			globalThis.callbacks = ["tick", "onClose", "onPlayerJoin", "onPlayerLeave", "onPlayerJump", "onRespawnRequest", "playerCommand", "onPlayerChat", "onPlayerChangeBlock", "onPlayerDropItem", "onPlayerPickedUpItem", "onPlayerSelectInventorySlot", "onBlockStand", "onPlayerAttemptCraft", "onPlayerCraft", "onPlayerAttemptOpenChest", "onPlayerOpenedChest", "onPlayerMoveItemOutOfInventory", "onPlayerMoveInvenItem", "onPlayerMoveItemIntoIdxs", "onPlayerSwapInvenSlots", "onPlayerMoveInvenItemWithAmt", "onPlayerAttemptAltAction", "onPlayerAltAction", "onPlayerClick", "onClientOptionUpdated", "onMobSettingUpdated", "onInventoryUpdated", "onChestUpdated", "onWorldChangeBlock", "onCreateBloxdMeshEntity", "onEntityCollision", "onPlayerAttemptSpawnMob", "onWorldAttemptSpawnMob", "onPlayerSpawnMob", "onWorldSpawnMob", "onWorldAttemptDespawnMob", "onMobDespawned", "onPlayerAttack", "onPlayerDamagingOtherPlayer", "onPlayerDamagingMob", "onMobDamagingPlayer", "onMobDamagingOtherMob", "onAttemptKillPlayer", "onPlayerKilledOtherPlayer", "onMobKilledPlayer", "onPlayerKilledMob", "onMobKilledOtherMob", "onPlayerPotionEffect", "onPlayerDamagingMeshEntity", "onPlayerBreakMeshEntity", "onPlayerUsedThrowable", "onPlayerThrowableHitTerrain", "onTouchscreenActionButton", "onTaskClaimed", "onChunkLoaded", "onPlayerRequestChunk", "onItemDropCreated", "onPlayerStartChargingItem", "onPlayerFinishChargingItem", "onPlayerFinishQTE", "doPeriodicSave"]
 			dotOS.module ??= {}
 			dotOS.callbacks ??= {}
+			for(let i of callbacks){
+				dotOS.callbacks[i] = []
+			}
 			/**
 			 * @namespace dotModule
 			 */
 			globalThis.dotModule = {
-				callbacks: [...callbacks],
 				refreshOnLoad: true,
 				/**
 				 * Load a file as a module.
@@ -41,7 +43,7 @@ obj = {
 				 * Delete every callback.
 				 */
 				resetAllCallbacks() {
-					for (let i of dotModule.callbacks) {
+					for (let i of Object.keys(dotOS.callbacks)) {
 						dotOS.callbacks[i] = []
 					}
 				},
@@ -62,7 +64,7 @@ obj = {
 					}
 				},
 				setCallbacks() {
-					for (let name of dotModule.callbacks) {
+					for (let name of Object.keys(dotOS.callbacks)) {
 						globalThis[name] = function (...args) {
 							t = undefined
 							for (let i of dotOS.callbacks[name]) {
@@ -76,7 +78,6 @@ obj = {
 					}
 				}
 			}
-			dotModule.resetAllCallbacks()
 			dotModule.setCallbacks()
 			callbacks = null
 		}

@@ -1,4 +1,4 @@
-
+dotOS = {}
 			/**
 			 * @namespace TS
 			 */
@@ -69,29 +69,17 @@
 					TS.work[TS.tick + delay] = t
 				}
 			}
-	dotOS.callbacks.tick.push(function() {
-			TS.tick++
-			if (!TS.work?.[TS.tick]) return
-			if (TS.prioritizeUnfinishedWork) {
-				TS.stack = [...TS.stack, ...TS.work[TS.tick]]
-			} else {
-				TS.stack = [...TS.work[TS.tick], ...TS.stack]
-			}
-			delete TS.work[TS.tick]
-			while (TS.stack.length > 0) {
-				eval()
-				TS.parseAction(TS.stack.shift())
-			}
-		})
-
+	
 			globalThis.callbacks = ["tick", "onClose", "onPlayerJoin", "onPlayerLeave", "onPlayerJump", "onRespawnRequest", "playerCommand", "onPlayerChat", "onPlayerChangeBlock", "onPlayerDropItem", "onPlayerPickedUpItem", "onPlayerSelectInventorySlot", "onBlockStand", "onPlayerAttemptCraft", "onPlayerCraft", "onPlayerAttemptOpenChest", "onPlayerOpenedChest", "onPlayerMoveItemOutOfInventory", "onPlayerMoveInvenItem", "onPlayerMoveItemIntoIdxs", "onPlayerSwapInvenSlots", "onPlayerMoveInvenItemWithAmt", "onPlayerAttemptAltAction", "onPlayerAltAction", "onPlayerClick", "onClientOptionUpdated", "onMobSettingUpdated", "onInventoryUpdated", "onChestUpdated", "onWorldChangeBlock", "onCreateBloxdMeshEntity", "onEntityCollision", "onPlayerAttemptSpawnMob", "onWorldAttemptSpawnMob", "onPlayerSpawnMob", "onWorldSpawnMob", "onWorldAttemptDespawnMob", "onMobDespawned", "onPlayerAttack", "onPlayerDamagingOtherPlayer", "onPlayerDamagingMob", "onMobDamagingPlayer", "onMobDamagingOtherMob", "onAttemptKillPlayer", "onPlayerKilledOtherPlayer", "onMobKilledPlayer", "onPlayerKilledMob", "onMobKilledOtherMob", "onPlayerPotionEffect", "onPlayerDamagingMeshEntity", "onPlayerBreakMeshEntity", "onPlayerUsedThrowable", "onPlayerThrowableHitTerrain", "onTouchscreenActionButton", "onTaskClaimed", "onChunkLoaded", "onPlayerRequestChunk", "onItemDropCreated", "onPlayerStartChargingItem", "onPlayerFinishChargingItem", "onPlayerFinishQTE", "doPeriodicSave"]
 			dotOS.module ??= {}
 			dotOS.callbacks ??= {}
+			for(let i of callbacks){
+				dotOS.callbacks[i] = []
+			}
 			/**
 			 * @namespace dotModule
 			 */
 			globalThis.dotModule = {
-				callbacks: [...callbacks],
 				refreshOnLoad: true,
 				/**
 				 * Load a file as a module.
@@ -116,7 +104,7 @@
 				 * Delete every callback.
 				 */
 				resetAllCallbacks() {
-					for (let i of dotModule.callbacks) {
+					for (let i of Object.keys(dotOS.callbacks)) {
 						dotOS.callbacks[i] = []
 					}
 				},
@@ -137,7 +125,7 @@
 					}
 				},
 				setCallbacks() {
-					for (let name of dotModule.callbacks) {
+					for (let name of Object.keys(dotOS.callbacks)) {
 						globalThis[name] = function (...args) {
 							t = undefined
 							for (let i of dotOS.callbacks[name]) {
@@ -151,7 +139,6 @@
 					}
 				}
 			}
-			dotModule.resetAllCallbacks()
 			dotModule.setCallbacks()
 			callbacks = null
 	
@@ -394,10 +381,14 @@
 				}
 				_addFileToDir(dir, name) {
 					let l = JSON.parse(this._getFile(dir))
-					l[l.length] = name
-					this._setFile(dir, JSON.stringify(l))
+					name = {hash: this.hash.hashStr(name), name: name}
+					if(!(l.includes(name))){
+						l.push(name)
+						this._setFile(dir, JSON.stringify(l))
+					}
 				}
 				_removeFileFromDir(dir, name) {
+					name = {hash: this.hash.hashStr(name), name: name}
 					let l = JSON.parse(this._getFile(dir))
 					l.splice(l.indexOf(name), 1)
 					this._setFile(dir, JSON.stringify(l))
@@ -410,10 +401,28 @@
 				 * @param {string} contents - File contents
 				 */
 				newFile(parent, name, contents) {
-					this._addFileToDir(this.hash.hashStr(parent), this.hash.hashStr(name))
+					this._addFileToDir(this.hash.hashStr(parent), name)
 					let ha = this.hash.hashStr(parent + '/' + name)
 					api.setBlock(ha - 400000, this.disk, 0, 'Chest')
 					this._setFile(ha, contents)
+				}
+				/**
+				 * Delete a file
+				 * @memberof FS
+				 * @param {string} parent - Parent directory
+				 * @param {string} name - Individual file name
+				 */
+				deleteFile(parent, name){
+					let fullName = this.hash.hashStr(parent + '/' + name)
+					let t = this._getFileHeader(fullName)
+					this._removeFileFromDir(this.hash.hashStr(parent),name)
+					for(let i = 0; i < t + 1; i++){
+						api.setBlockData(fullName - 400000, this.disk, i, {
+							persisted: {
+								chestStr: '[]'
+							}
+						})
+					}
 				}
 				_isFileLoaded(f) {
 					if (!this._isPlaceLoaded(f, 0)) {
@@ -450,5 +459,18 @@
 					return this.getFileHeader(f) ? true : false
 				}
 			}
-			globalThis.FS = new disk(-1728, 'FS')
-	
+			globalThis.FS = new disk(69831, 'FS')
+	dotOS.callbacks.tick.push(function() {
+			TS.tick++
+			if (!TS.work?.[TS.tick]) return
+			if (TS.prioritizeUnfinishedWork) {
+				TS.stack = [...TS.stack, ...TS.work[TS.tick]]
+			} else {
+				TS.stack = [...TS.work[TS.tick], ...TS.stack]
+			}
+			delete TS.work[TS.tick]
+			while (TS.stack.length > 0) {
+				eval()
+				TS.parseAction(TS.stack.shift())
+			}
+		})

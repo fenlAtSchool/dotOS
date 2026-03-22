@@ -49,6 +49,15 @@ obj = {
 					}
 				}
 				/**
+				 * Delete a file without needing to load it
+				 * @param {string} parent - Parent Directory
+				 * @param {string} name - File Name
+				 */
+				*deleteFile(parent, name){
+					yield* this.loadFile(parent + '/' + name)
+					this.deleteFile(parent, name)
+				}
+				/**
 				 * Load a file
 				 * @memberof FS
 				 * @param {string} f - File
@@ -66,7 +75,7 @@ obj = {
 				*forceSetFile(p, n, c) {
 					yield* this.loadFile(p)
 					yield* this.loadFile(p + '/' + n)
-					if (this.isFileValid(p)) {
+					if (this.isFileValid(p + '/' + n)) {
 						this.setFile(p + '/' + n, c)
 					} else {
 						this.newFile(p, n, c)
@@ -87,7 +96,7 @@ obj = {
 					}
 				}
 			}
-			globalThis.FS = new asyncFS(-1728)
+			globalThis.FS = new asyncFS(FS.disk)
 		}
 	}
 }
