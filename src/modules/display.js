@@ -8,20 +8,6 @@ export default {
     },
     onLoad() {
         initDisplay = new Thread(function* () {
-            dispFiles = new Thread(function* () {
-                yield* threadLibs.waitUntil(() => mountDrive.threads.files.isIdle())
-                dotOS.htmlColors = yield* loadJSONFile('dotOS/data/colors.json')
-                api.log('display: Processing hex codes...')
-                dotOS.htmlColors.hex.map(function (v) {
-                    let a = v[1] + v[2]
-                    let b = v[3] + v[4]
-                    let c = v[4] + v[5]
-                    return [Number('0x' + a), Number('0x' + b), Number('0x' + c)]
-                })
-                api.log('display: dotOS HTML Colors loaded!')
-                return
-            })
-            yield threadLibs.waitUntil(() => dispFiles.isIdle())
             /**
              * @namespace Display
              */
@@ -29,25 +15,34 @@ export default {
                 /**
                  * @memberof Display
                  * @param {number[]} res - Resolution, defaults to 285x125
-                 * @param {{hex: number[][], names: string[]}} colors - An object of colors
                  */
-                constructor(res = [285, 125], colors) {
+                constructor(res = [285, 125]) {
                     this.buffer = new BigArray(Array(res[0] * res[1]).fill(0))
                     this.res = res
-                    this.colors = colors
-                    this.nameToHex = Object.fromEntries(
-                        this.colors.names.map((key, idx) => [key, this.colors.hex[idx]])
-                    )
-                    this.hexToName = Object.fromEntries(
-                        this.colors.names.map((key, idx) => [key, this.colors.hex[idx]])
-                    )
-                    this.colors = new BigArray(this.colors)
                 }
-
+                /**
+                 * @memberof Display
+                 * @param {{hex: number[][], names: string[]}} colors - An object of colors
+                 */
+                setColors(colors){
+                    this.colors = new BigArray(colors) 
+                }
             }
-            globalThis.display = new Display(285, 125, dotOS.htmlColors)
-            delete dotOS.htmlColors
-        })
+            globalThis.display = new Display(285, 125)
+            api.log('display: dotOS Display loaded!')
+
+            yield* threadLibs.waitUntil(() => mountDrive.thread.isIdle())
+            display.colors = yield* loadJSONFile('dotOS/data/colors.json')
+            api.log('display: Processing hex codes...')
+            display.colors.hex.map(function (v) {
+                let a = v[1] + v[2]
+                let b = v[3] + v[4]
+                let c = v[4] + v[5]
+                return [Number('0x' + a), Number('0x' + b), Number('0x' + c)]
+            })
+            display.setColors(display.colors)
+            api.log('display: dotOS HTML Colors loaded!')
+        }, 'initDisplay')
     },
     callbacks: {}
 }

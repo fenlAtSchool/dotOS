@@ -16,7 +16,8 @@ export default {
 					return new Function(code)(...args)
 				} catch (e) {
 					this.e = e
-					this.point = +e.stack.split(' ')[6].slice(9).replace(')\n', '') + 1
+					this.point = +e.stack.split(' ')[6].slice(9).replace(')\n', '') - 3
+					return undefined
 				}
 			}
 			tryFunction(code, ...args) {
@@ -26,7 +27,8 @@ export default {
 					return (code)(...args)
 				} catch (e) {
 					this.e = e
-					this.point = +e.stack.split(' ')[6].slice(9).replace(')\n', '') + 1
+					this.point = +e.stack.split(' ')[6].slice(9).replace(')\n', '') - 1
+					return undefined
 				}
 			}
 			log() {
@@ -47,6 +49,6 @@ export default {
 		globalThis.dotError = new dotErr()
 	},
 	callbacks: {
-		
+
 	}
 }

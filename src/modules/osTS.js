@@ -54,8 +54,8 @@ export default {
 			/**
 			 * Set a function to happen n ticks later.
 			 * @memberof TS
-			 * @param {*} action - Function
-			 * @param {*} delay - Delay in 50-millisecond ticks
+			 * @param {function} action - Function
+			 * @param {number} delay - Delay in 50-millisecond ticks
 			 * @param  {...any} args - Arguments
 			 */
 			setTimeout(action, delay, ...args) {
@@ -90,7 +90,7 @@ export default {
 				TS.stack = [...TS.work[TS.tick], ...TS.stack]
 			}
 			delete TS.work[TS.tick]
-			while (TS.stack.length > 0) {
+			for(let i = 0; i < Math.min(TS.stack.length, TS.cyclesPerTick); i++) {
 				eval()
 				TS.parseAction(TS.stack.shift())
 			}

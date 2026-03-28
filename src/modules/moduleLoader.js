@@ -65,9 +65,9 @@ export default {
 			setCallbacks() {
 				for (let name of Object.keys(dotOS.callbacks)) {
 					globalThis[name] = function (...args) {
-						t = undefined
+						let t = undefined
 						for (let i of dotOS.callbacks[name]) {
-							t = dotError.tryFunction(i, ...args)
+							t = dotError.tryFunction(i, ...args) || t
 							if (dotError.hasError()) {
 								dotError.log()
 							}

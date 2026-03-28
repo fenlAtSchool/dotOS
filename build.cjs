@@ -61,8 +61,14 @@ async function main() {
     }
     world.funcs = orderArray(world.funcs, world.requirements).map(v => world.code[v])
     code.funcs = orderArray(code.funcs, code.requirements).map(v => code.code[v])
-    await fs.writeFile('./build/worldcode.js', world.funcs.join('\n'))
-    await fs.writeFile('./build/codeblock.js', code.funcs.join('\n'))
+    let wbuild = world.callbacks.map(function(a){
+        return `dotOS.callbacks.${a.call}.push(function(){${a.val}})`
+    }).join('\n')
+    let cbuild = code.callbacks.map(function(a){
+        return `dotOS.callbacks.${a.call}.push(function(){${a.val}})`
+    }).join('\n')
+    await fs.writeFile('./build/worldcode.js', 'dotOS = {}\n' + world.funcs.join('\n') + '\n' + wbuild)
+    await fs.writeFile('./build/codeblock.js', code.funcs.join('\n') + '\n' + cbuild)
 
     let data = await fs.readdir('./src/data/')
     file = 'toUpload = []\n'

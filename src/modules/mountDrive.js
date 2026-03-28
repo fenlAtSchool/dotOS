@@ -7,9 +7,9 @@ export default {
 		requirements: ['FS-async', 'async']
 	},
 	onLoad() {
-		globalThis.mountDrive = { threads: {}, toUpload: toUpload, filesLoaded: false }
+		globalThis.mountDrive = { thread: {isIdle(){return false}}, toUpload: toUpload, filesLoaded: false }
 		toUpload = null
-		mountDrive.threads.mount = new Thread(function* () {
+		mountDrive.thread = new Thread(function* () {
 			let f = FS.hash.hashStr('dotOS')
 			for (let i = 0; i < 3; i++) {
 				api.getBlockId(f - 400000, FS.disk, 0)
@@ -23,17 +23,13 @@ export default {
 			}
 			yield* FS.forceSetFile('dotOS', 'data', '[]')
 			api.log('Drive mounted!')
-			return
-		})
-		mountDrive.threads.files = new Thread(function* () {
-			yield* threadLibs.waitUntil(() => (mountDrive.threads.mount.isIdle()))
+			yield
 			for (let i of mountDrive.toUpload) {
 				yield* FS.forceSetFile('dotOS/data', i.name, i.contents)
 			}
-			mountDrive.filesLoaded = true
 			api.log('Finished loading files!')
-			return
-		})
+			delete globalThis.mountDrive
+		}, 'mountDrive.thread')
 	},
 	callbacks: {
 	}
