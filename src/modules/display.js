@@ -13,9 +13,10 @@ export default {
              */
             globalThis.Display = class {
                 hasChanged = false
-                stepSize = 0.03
-                charSz = 3/5 * 0.03
+                width = 0.05
+                height = 0.05
                 partition = 8
+                row = 128
                 /**
                  * @memberof Display
                  * @param {number[]} res - Resolution, defaults to 256x128
@@ -27,39 +28,61 @@ export default {
                         set: (t, i, v) => (t[i] = v, this.hasChanged = true)
                     })
                 }
-                *drawDisplay(){
-                    const pos = [0,2,0]
+                _drawRow(){
+                    const pos = [0,3,0]
                     const part = this.res[0]/this.partition
-                    for(this.row = 0; this.row < this.res[1]; this.row++){
-                        if(this.row % 4 == 0){
-                            yield
-                        }
-                        for(let j = 0; j < this.partition; j++){
-                            const id = `dotOS_display_row${this.row}_rev${j}`
-                            const off = this.row * this.res[0]
-                            let row = Array(part)
-                            for(let x = 0; x < part; x++){
-                                row[x] = {
-                                    str: '█',
-                                    style: {
-                                        color: this.colors.names[this.buffer[off + x + part * j]]
-                                    }
+                    for(let j = 0; j < this.partition; j++){
+                        const id = `dotOS_display_row${this.row}_rev${j}`
+                        const off = this.row * this.res[0]
+                        let row = Array(part)
+                        for(let x = 0; x < part; x++){
+                            row[x] = {
+                                str: '█',
+                                style: {
+                                    color: this.colors.names[this.buffer[off + x + (part * j)]]
                                 }
                             }
-                            const npos = [
-                                pos[0] + ((j - (this.partition/2)) * part * this.charSz),
-                                pos[1] + ((this.res[1] - this.row) * this.stepSize),
-                                pos[2]
-                            ]
-                            api.setDirectionArrow(
-                                dotOS.user.id,
-                                id,
-                                npos,
-                                row,
-                                false
-                            )
                         }
+                        const npos = [
+                            pos[0] + ((j - (this.partition/2)) * part * this.width),
+                            pos[1] + ((this.res[1] - this.row) * this.height),
+                            pos[2]
+                        ]
+                        api.setDirectionArrow(
+                            dotOS.user.id,
+                            id,
+                            npos,
+                            row,
+                            false,
+                            {
+                                color: 'black',
+                                fontSize: '3px'
+                            }
+                        )
                     }
+                    this.row++
+                }
+                _spamDraw(){
+                    if(this.row < this.res[1]){
+                        TS.setTimeout(() => this._spamDraw(), 1)
+                    }
+                    while(this.row < this.res[1]){
+                        this._drawRow()
+                    }
+                }
+                drawDisplay() {
+                    this.row = 0
+                    this._spamDraw()
+                }
+                clearDisplay() {
+					for(let i = 0; i < this.res[1]; i++){
+						for(let j = 0; j < this.partition; j++){
+							api.clearDirectionArrow(dotOS.user.id, `dotOS_display_row${this.row}_rev${j}`)
+						}
+					}
+				}
+                isIdle(){
+                    return this.row == this.res[1]
                 }
                 /*
     _renderRow(y) {

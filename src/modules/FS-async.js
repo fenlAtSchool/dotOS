@@ -96,7 +96,7 @@ export default {
 			}
 		}
 		globalThis.FS = new asyncFS(FS.disk)
-		delete globalThis.disk
+		//delete globalThis.disk
 	},
 	callbacks: {
 	}
