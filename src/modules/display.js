@@ -24,6 +24,7 @@ export default {
                 constructor(res) {
                     this.res = res || [256, 128]
                     this.buffer = new Uint8Array(this.res[0] * this.res[1])
+                    this.buffer.fill(137)
                     this.pixels = new Proxy(this.buffer, {
                         set: (t, i, v) => (t[i] = v, this.hasChanged = true)
                     })

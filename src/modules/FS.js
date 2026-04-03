@@ -12,6 +12,7 @@ export default {
 			prime = 0x01000193
 			max = (1 << 18) - 1
 			hash(arr) {
+				/*
 				let v = this.offset >>> 0
 				for (let i of arr) {
 					v ^= i
@@ -19,6 +20,13 @@ export default {
 					v &= this.max
 				}
 				return v
+				*/
+				let t = 2166136261
+				for(let i of arr){
+					t = (t + i) >>> 0
+					t = (t << 4) ^ (t << 2) ^ (t << 1) ^ t
+				}
+				return [t & 65535, t >>> 16];
 			}
 			strToArr(str) {
 				let ans = new Uint8Array(str.length * 2), v
@@ -129,7 +137,6 @@ export default {
 			}
 			*/
 			constructor(disk) {
-				this.disk = disk
 				this.hash = new fnvHash()
 			}
 			_getFile(hex) {
@@ -144,20 +151,20 @@ export default {
 				let m = this.getFSlot(hex, 0, 0)
 				return m ? JSON.parse(m) : undefined
 			}
-			getFSlot(f, chapter, idx, disk = this.disk) {
-				return api.getStandardChestItemSlot([f - 400000, disk, chapter], idx)?.attributes?.customDescription
+			getFSlot(f, chapter, idx) {
+				return api.getStandardChestItemSlot([...f, chapter], idx)?.attributes?.customDescription
 			}
-			getFChapter(f, chapter, disk = this.disk) {
-				return Array.from(api.getStandardChestItems([f - 400000, disk, chapter]), function (a) {
+			getFChapter(f, chapter) {
+				return Array.from(api.getStandardChestItems([...f, chapter]), function (a) {
 					let v = a?.attributes?.customDescription
 					return v ? v : ''
 				})
 			}
-			setFSlot(f, chapter, idx, n, disk = this.disk) {
-				api.setStandardChestItemSlot([f - 400000, disk, chapter], idx, 'Net', 1, undefined, { customDescription: n })
+			setFSlot(f, chapter, idx, n) {
+				api.setStandardChestItemSlot([...f, chapter], idx, 'Net', 1, undefined, { customDescription: n })
 			}
-			_isPlaceLoaded(f, chapter, disk = this.disk) {
-				return (api.getBlockId(f - 400000, disk, chapter) !== 1)
+			_isPlaceLoaded(f, chapter) {
+				return (api.getBlockId(...f, chapter) !== 1)
 			}
 			/**
 			 * 
@@ -229,7 +236,7 @@ export default {
 			newFile(parent, name, contents) {
 				this._addFileToDir(this.hash.hashStr(parent), name)
 				let ha = this.hash.hashStr(parent + '/' + name)
-				api.setBlock(ha - 400000, this.disk, 0, 'Chest')
+				api.setBlock(...ha, 0, 'Chest')
 				this._setFile(ha, contents)
 			}
 			/**
@@ -243,7 +250,7 @@ export default {
 				let t = this._getFileHeader(fullName)
 				this._removeFileFromDir(this.hash.hashStr(parent),name)
 				for(let i = 0; i < t + 1; i++){
-					api.setBlockData(fullName - 400000, this.disk, i, {
+					api.setBlockData(...fullName, this.disk, i, {
 						persisted: {
 							chestStr: '[]'
 						}

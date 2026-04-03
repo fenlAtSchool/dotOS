@@ -12,7 +12,7 @@ export default {
 		driveMounting.thread = new Thread(function* () {
 			let f = FS.hash.hashStr('dotOS')
 			for (let i = 0; i < 3; i++) {
-				api.getBlockId(f - 400000, FS.disk, 0)
+				api.getBlockId(...f, 0)
 				yield
 			}
 			try {
