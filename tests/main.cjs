@@ -13,6 +13,17 @@ async function main() {
 	const codeBlock = await fs.readFile(path.join(__dirname, '..', 'build/codeblock.cjs'), { encoding: 'utf8' })
 	eval(codeBlock)
 	const interval = setInterval(() => { tick() }, 50)
+	let m = new Thread(function*(){
+		while(1){
+			console.log(TS.tick)
+			yield
+		}
+	})
+	globalThis.e9asjz = function(){
+		api.log(TS.tick)
+		TS.setTimeout(e9asjz, 60)
+	}
+	e9asjz()
 }
 main()
 // ctrl + c	

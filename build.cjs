@@ -89,8 +89,8 @@ async function main() {
     let data = await fs.readdir('./src/data/')
     let dataContents = 'toUpload = []\n'
     for(let i of data){
-        let contents = await fs.readFile('./src/data/' + i)
-        dataContents += `toUpload.push({name: '${i}', contents: JSON.stringify(${contents})})\n`
+        let contents = await fs.readFile('./src/data/' + i, {encoding: 'utf8'})
+        dataContents += `toUpload.push({name: '${i}', contents: ${JSON.stringify(contents)}})\n`
     }
     await fs.writeFile('./build/files.cjs', dataContents)
     let header = await import('./src/header.js')

@@ -35,9 +35,9 @@ export default {
 			 * @param  {...any} args - Arguments
 			 */
 			scheduleFirstUnused(action, ...args) {
-				api.log(Object.keys(TS.work))
 				TS.lastUsedTick = Math.max(TS.lastUsedTick, TS.tick) + 1
 				TS.work[TS.lastUsedTick] = [TS.makeAction(action, ...args)]
+				api.log(Object.keys(TS.work))
 				return TS.lastUsedTick
 			},
 			/**

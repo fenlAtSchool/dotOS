@@ -25,9 +25,9 @@ export default {
                     this.res = res || [256, 128]
                     this.buffer = new Uint8Array(this.res[0] * this.res[1])
                     this.buffer.fill(137)
-                    this.pixels = new Proxy(this.buffer, {
+                    /*this.pixels = new Proxy(this.buffer, {
                         set: (t, i, v) => (t[i] = v, this.hasChanged = true)
-                    })
+                    })*/
                 }
                 _drawRow(){
                     const pos = [0,3,0]
@@ -85,42 +85,13 @@ export default {
                 isIdle(){
                     return this.row == this.res[1]
                 }
-                /*
-    _renderRow(y) {
-    const rowOffset = y * this.width;
-    
-    for (let x = 0; x < this.width; x++) {
-      this.rowBuilder[x] = this.palette[this.buffer[rowOffset + x]];
-    }
-    const rowString = this.rowBuilder.join("");
-    const visualIndex = (this.height - 1 - y);
-    
-    const pos = [
-      this.screenPos[0],
-      this.screenPos[1] + (visualIndex * this.pixelStep),
-      this.screenPos[2]
-    ];
-
-    api.setDirectionArrow(
-      this.playerId,
-      `${this.screenId}_${visualIndex}`, 
-      pos,
-      rowString,
-      false, 
-      { 
-        color: "black",
-        fontSize: "4px" 
-      }
-    );
-  }
-    */
             }
             globalThis.display = new Display()
             api.log('display: dotOS Display loaded!')
 
-            yield* threadLibs.waitUntil(() => !globalThis.driveMounting)
-            display.colors = yield* loadJSONFile('dotOS/data/colors.json')
+            yield* threadLibs.waitUntil(() => !(globalThis.driveMounting))
             api.log('display: Processing hex codes...')
+            display.colors = yield* loadJSONFile('dotOS/data/colors.json')
             display.colors.hex = display.colors.hex.map(function (v) {
                 let a = v[1] + v[2]
                 let b = v[3] + v[4]
