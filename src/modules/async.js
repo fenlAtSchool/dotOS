@@ -28,6 +28,7 @@ export default {
 				TS.scheduleFirstUnused(() => (this.tick()))
 			}
 			tick() {
+				//api.log(`${this.name}: ${this.idle}`)
 				if (!this.idle) {
 					TS.scheduleFirstUnused(() => (this.tick()))
 				}
