@@ -39,7 +39,7 @@ export default {
             yield* thl.require('drive')
             font = yield* loadJSONFile('dotOS/data/font.json')
             yield
-        }, 'windowIs')
+        }(), 'windowIs')
     },
     callbacks: {}
 }

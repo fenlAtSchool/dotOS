@@ -16,7 +16,7 @@ export default {
 			work: {},
 			stack: [],
 			prioritizeUnfinishedWork: true,
-			cyclesPerTick: 5,
+			cyclesPerTick: 99,
 			lastUsedTick: 0,
 			tick: 0,
 			makeAction(action, ...args) {

@@ -113,7 +113,7 @@ export default {
                 return [Number('0x' + a), Number('0x' + b), Number('0x' + c)]
             })
             api.log('display: dotOS HTML Colors loaded!')
-        }, 'initDisplay')
+        }(), 'initDisplay')
     },
     callbacks: {}
 }

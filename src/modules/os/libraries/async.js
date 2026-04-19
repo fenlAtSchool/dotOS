@@ -20,8 +20,8 @@ export default {
 		 * @class
 		 */
 		globalThis.Thread = class {
-			constructor(func, name, ...args) {
-				this.task = func(...args)
+			constructor(func, name) {
+				this.task = func
 				this.idle = false
 				this.name = name || 'thread'
 				this.endValue = 0
@@ -75,6 +75,10 @@ export default {
 			speak: {}, // Speaking channels
 			maxSpeakRecall: 10, // Maximum recall for speaking channels
 
+			setInterval(f, interval, ...args){
+				let v = () => {f(...args), TS.setTimeout(v, interval, ...args)}
+				TS.setTimeout(v, interval)
+			},
 			// Sleep API
 			/**
 			 * Sleep for a given number of 50-millisecond ticks.

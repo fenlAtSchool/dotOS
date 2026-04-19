@@ -38,12 +38,10 @@ export default {
 			dotOS.user.cam = add(dotOS.user.cam, api.getPlayerFacingInfo(dotOS.user.id).dir)
 			api.setCameraDirection(myId, [1, 0, 0])
 		}
-		globalThis.dotOS.handleUserInput = function () {
+		thl.setInterval(function () {
 			dotOS.updateUserPositions()
 			dotOS.updateUserCam()
-			TS.setTimeout(dotOS.handleUserInput, 2)
-		}
-		dotOS.handleUserInput()
+		}, 2)
 	},
 	callbacks: {
 		onPlayerClick(id){
