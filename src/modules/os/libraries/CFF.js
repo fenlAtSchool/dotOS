@@ -7,12 +7,14 @@ export default {
 		requirements: ['jsonLoad', 'FS-async', 'async']
 	},
 	onLoad() {
+		const GeneratorFunction = Object.getPrototypeOf(function*(){}).constructor
 		globalThis.execFile = function*(f){
-			const file = yield* FS.getFileAsync(f)
 			const extension = f.split('.').at(-1)
-			const data = {fName: f, fContents: file}
-			const form = FS.getFileAsync(`src/data/dotOS-ext-${extension}.js`)
-			return (new Function*('data', form))(data)
+			const data = {fName: f, fContents: yield* FS.getFileAsync(f)}
+			const form = yield* FS.getFileAsync(`dotOS/data/filetypes/impl/${extension}.js`)
+			const func = new GeneratorFunction('data', form)
+			let val = yield* func(data)
+			return val
 		}
 	},
 	callbacks: {

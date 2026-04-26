@@ -70,16 +70,16 @@ async function main() {
         globalThis[chosen].requirements[name] = obj.info.requirements
         for (let [j, k] of Object.entries(obj.callbacks)) {
             let m = k.toString()
-            globalThis[chosen].callbacks.push({ call: j, val: m.slice(m.indexOf('{') + 1, m.lastIndexOf('}')) })
+            globalThis[chosen].callbacks.push({ call: j, val: 'function' + m.slice(m.indexOf('(')) })
         }
     }
     world.funcs = orderArray(world.funcs, world.requirements).map(v => world.code[v])
     code.funcs = orderArray(code.funcs, code.requirements).map(v => code.code[v])
     let wbuild = world.callbacks.map(function (a) {
-        return `dotOS.callbacks.${a.call}.push(function(){${a.val}})`
+        return `dotOS.callbacks.${a.call}.push(${a.val})`
     }).join('\n')
     let cbuild = code.callbacks.map(function (a) {
-        return `dotOS.callbacks.${a.call}.push(function(){${a.val}})`
+        return `dotOS.callbacks.${a.call}.push(${a.val})`
     }).join('\n')
     const notice = `
 /**
@@ -102,12 +102,29 @@ async function main() {
     let data = await fs.readdir('./src/data/', { recursive: true })
     let dataContents = 'toUpload = []\n'
     for (let i of data) {
-        let contents = await fs.readFile('./src/data/' + i, { encoding: 'utf8' })
-        let obj = {
-            name: i,
-            contents: contents
+        let stat = await fs.lstat('./src/data/' + i)
+        let tmp = 'dotOS/data/' + i
+        let fname = tmp.slice(tmp.lastIndexOf('/')+1)
+        let homedir = tmp.slice(0, tmp.lastIndexOf('/'))
+        if(stat.isDirectory()){
+            dataContents += `toUpload.push(${JSON.stringify({
+                dir: homedir,
+                name: fname,
+                contents: '[]'
+            })})\n`
+        } else {
+            let contents = await fs.readFile('./src/data/' + i, { encoding: 'utf8'})
+            let obj = {
+                dir: homedir,
+                name: fname,
+                contents: contents
+            }
+            try{
+                obj.contents = JSON.parse(obj.contents)
+                obj.contents = JSON.stringify(obj.contents)
+            } catch {}
+            dataContents += `toUpload.push(${JSON.stringify(obj)})\n`
         }
-        dataContents += `toUpload.push(${str(obj)})\n`
     }
     await fs.writeFile('./build/files.cjs', dataContents)
     let header = await import('./src/header.js')

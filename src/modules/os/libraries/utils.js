@@ -2,22 +2,22 @@ export default {
     info: {
         name: 'utils',
         type: 'os',
-        requirements: []
+        requirements: ['async']
     },
     onLoad() {
         /**
          * Check if we are running within Bloxd.io or Node.js
          * @returns {boolean} - True if we are running within Bloxd.io
          */
-        function isBloxd() {
-            return Boolean(globalThis.module && globalThis.module?.exports)
+        globalThis.isBloxd = function() {
+            return !(globalThis.process)
         }
         /**
          * Repeatedly parse a string until it turns into an object.
          * @param {string} v - Input
          * @returns {} - Output
          */
-        function Parse(v) {
+        globalThis.Parse = function(v) {
             while (typeof v == 'string') {
                 v = JSON.parse(v)
             }
@@ -31,11 +31,12 @@ export default {
             function scopify(t, name = 'globalThis') {
                 let values = {}
                 for (let i of Object.keys(t)) {
-                    if (typeof i == 'object' && !['api', 'fti', 'console', 'Date'].includes(i)) {
+                    if (typeof t[i] == 'object' && !['api', 'fti', 'console', 'Date'].includes(i)) {
                         scopify(t[i], `${name}.${i}`)
                     }
                 }
-                let handler = new Proxy(Object.create(null), {
+                let proto = Object.getPrototypeOf(t)
+                let handler = new Proxy(Object.create(proto), {
                     set(target, p, newValue, receiver) {
                         let setValue = newValue.type ? { ...newValue } : {
                             val: newValue,

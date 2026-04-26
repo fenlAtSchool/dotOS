@@ -74,11 +74,13 @@ export default {
 			*forceSetFile(p, n, c) {
 				yield* this.loadFile(p)
 				yield* this.loadFile(p + '/' + n)
+				let time
 				if (this.isFileValid(p + '/' + n)) {
-					yield* thl.sleep(this.setFile(p + '/' + n, c))
+					time = this.setFile(p + '/' + n, c)
 				} else {
-					yield* thl.sleep(this.newFile(p, n, c))
+					time = this.newFile(p, n, c)
 				}
+				yield* thl.sleep(time)
 			}
 			/**
 			 * Set a file if it doesn't exist.

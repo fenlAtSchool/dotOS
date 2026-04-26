@@ -10,6 +10,7 @@ async function main() {
 	require('../build/files.cjs')
 	require('../build/codeblock.cjs')
 	const interval = setInterval(() => { tick() }, 50)
+	require('../testscript.cjs')
 	/*setInterval(function(){
 		api.log(Object.keys(TS.work))
 	}, 50)*/

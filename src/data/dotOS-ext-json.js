@@ -1,1 +1,0 @@
-return yield* JSON.parse(data.fContents)

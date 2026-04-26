@@ -1,0 +1,1 @@
+return Parse(data.fContents)

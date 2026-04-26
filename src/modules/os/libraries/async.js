@@ -86,14 +86,12 @@ export default {
 			 * @param {number} ms - Ticks
 			 */
 			*sleep(ms) {
-				let targ = TS.tick + ms
-				while(TS.tick < targ){
+				for(let i = 0; i < ms; i++){
 					yield
 				}
 			},
 			/**
-			 * Sleep for a given number of milliseconds (With Date.now())
-			 * More accurate for timekeeping than thl.sleep
+			 * Sleep for a given number of milliseconds
 			 * @memberof ThreadLibs
 			 * @param {number} ms - Milliseconds
 			 */

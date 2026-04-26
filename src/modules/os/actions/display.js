@@ -105,7 +105,7 @@ export default {
 
             yield* thl.require('drive')
             api.log('display: Processing hex codes...')
-            display.colors = yield* loadJSONFile('dotOS/data/colors.json')
+            display.colors = yield* execFile('dotOS/data/display/colors.json')
             display.colors.hex = display.colors.hex.map(function (v) {
                 let a = v[1] + v[2]
                 let b = v[3] + v[4]
@@ -113,6 +113,7 @@ export default {
                 return [Number('0x' + a), Number('0x' + b), Number('0x' + c)]
             })
             api.log('display: dotOS HTML Colors loaded!')
+            thl.send('screen')
         }(), 'initDisplay')
     },
     callbacks: {}

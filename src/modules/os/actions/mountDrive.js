@@ -23,13 +23,10 @@ export default {
 			}
 			yield* FS.forceSetFile('dotOS', 'data', '[]')
 			api.log('Drive mounted!')
-			let thr = []
-			for (let i of driveMounting.toUpload) {
-				thr.push(new Thread(function*(){ // Accelerate by making multiple processes
-					yield* FS.forceSetFile('dotOS/data', i.name, i.contents)
-				}()))
+			for(let i of driveMounting.toUpload){
+				console.log(`Setting ${i.dir}/${i.name}`)
+				yield* FS.forceSetFile(i.dir, i.name, i.contents)
 			}
-			yield* thl.waitUntil(() => thr.every(i => i.isIdle()))
 			api.log('Finished loading files!')
 			thl.send('drive')
 			delete globalThis.driveMounting

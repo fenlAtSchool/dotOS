@@ -37,8 +37,7 @@ export default {
         api.log('Initialized Windows!')
         globalThis.windowIs = new Thread(function*(){
             yield* thl.require('drive')
-            font = yield* loadJSONFile('dotOS/data/font.json')
-            yield
+            globalThis.font = yield* execFile('dotOS/data/display/font.json')
         }(), 'windowIs')
     },
     callbacks: {}

@@ -108,7 +108,7 @@ export default {
 				}))
 				for (let i = 0; i < len; i++) {
 					TS.setTimeout((f, i, file, func, disk) => {
-						for (let j = 0; j < f.length; j++) {
+						for (let j = 0; j < f.length; j++){
 							func(file, i + 1, j, f[j], disk)
 						}
 					}, (i >> 4) + 1, chunks[i], i, file, this.setFSlot, this.disk)
@@ -122,7 +122,7 @@ export default {
 			 * @param {string} contents - Contents of the file
 			 */
 			setFile(f, contents) {
-				this._setFile(this.hash.hashStr(f), contents)
+				return this._setFile(this.hash.hashStr(f), contents)
 			}
 			addFileToDir(dir, name) {
 				let fullName = dir + '/' + name
@@ -133,14 +133,14 @@ export default {
 					this._setFile(dir, JSON.stringify(l))
 				}*/
 				l.push(name)
-				this.setFile(dir, JSON.stringify(l))
+				return this.setFile(dir, JSON.stringify(l))
 			}
 			removeFileFromDir(dir, name) {
 				let fullName = dir + '/' + name
 				name = {hash: this.hash.hashStr(fullName), name: name, fullName: fullName}
 				let l = JSON.parse(this.getFile(dir))
 				l.splice(l.indexOf(name), 1)
-				this.setFile(dir, JSON.stringify(l))
+				return this.setFile(dir, JSON.stringify(l))
 			}
 			/**
 			 * Create a new file as parent/name
@@ -150,8 +150,7 @@ export default {
 			 * @param {string} contents - File contents
 			 */
 			newFile(parent, name, contents) {
-				this.addFileToDir(parent, name)
-				return this.setFile(parent + '/' + name, contents)
+				return this.addFileToDir(parent, name) + this.setFile(parent + '/' + name, contents)
 			}
 			/**
 			 * Delete a file

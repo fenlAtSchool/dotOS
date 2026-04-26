@@ -16,7 +16,6 @@ export default {
 			work: {},
 			stack: [],
 			prioritizeUnfinishedWork: true,
-			cyclesPerTick: 99,
 			lastUsedTick: 0,
 			tick: 0,
 			makeAction(action, ...args) {
@@ -93,7 +92,7 @@ export default {
 				TS.stack = [...TS.work[TS.tick], ...TS.stack]
 			}
 			delete TS.work[TS.tick]
-			for(let i = 0; i < Math.min(TS.stack.length, TS.cyclesPerTick); i++) {
+			for(let i = 0; i < TS.stack.length; i++) {
 				eval()
 				TS.parseAction(TS.stack.shift())
 			}

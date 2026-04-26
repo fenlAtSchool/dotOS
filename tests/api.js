@@ -13,6 +13,9 @@ export default {
 	getStandardChestItemSlot(pos, idx) {
 		return chestInfo[pos[0]]?.[pos[1]]?.[pos[2]]?.[idx] || ''
 	},
+	setDirectionArrow(){
+		console.log(arguments)
+	},
 	setClientOption(){},
 	setClientOptions(){},
 	getStandardChestItems(pos) {
