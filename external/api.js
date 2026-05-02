@@ -17,7 +17,8 @@ export default {
 		return chestInfo[pos[0]]?.[pos[1]]?.[pos[2]]?.[idx] || ''
 	},
 	setDirectionArrow(pid, id, pos, val){
-		pos = [Math.round(pos[0]/1.6)+4, Math.round((pos[1] - 1.85)*20)]
+		pos = [Math.round(pos[0]/1.6)+4, Math.round(pos[1]*20) - 33]
+		console.log(pos)
 		screen[119 - pos[1]].splice(32 * pos[0], 32, ...val)
 	},
 	terminalDrawScreen(){

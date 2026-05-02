@@ -99,6 +99,22 @@ export default {
                 isIdle(){
                     return this.row == this.res[1]
                 }
+                findClosestCode(hex){
+                    if(typeof hex == 'string'){
+                        if(hex.startsWith('#')){
+                            hex = hex.slice(1)
+                        }
+                        hex = [parseInt(hex[0] + hex[1], 16), parseInt(hex[2] + hex[3], 16), parseInt(hex[4] + hex[5], 16)]
+                    }
+                    let min = [Number.MAX_VALUE, undefined]
+                    for(let i = 0; i < this.colors.hex.length; i++){
+                        let diff = Math.abs(this.colors.hex[i][0] - hex[0]) + Math.abs(this.colors.hex[i][1] - hex[1]) + Math.abs(this.colors.hex[i][2] - hex[2])
+                        if(diff < min[0]){
+                            min = [diff, i]
+                        }
+                    }
+                    return min
+                }
             }
             globalThis.display = new Display()
             api.log('display: dotOS Display loaded!')
@@ -109,8 +125,8 @@ export default {
             display.colors.hex = display.colors.hex.map(function (v) {
                 let a = v[1] + v[2]
                 let b = v[3] + v[4]
-                let c = v[4] + v[5]
-                return [Number('0x' + a), Number('0x' + b), Number('0x' + c)]
+                let c = v[5] + v[6]
+                return [parseInt(a, 16), parseInt(b, 16), parseInt(c, 16)]
             })
             api.log('display: dotOS HTML Colors loaded!')
             thl.send('screen')

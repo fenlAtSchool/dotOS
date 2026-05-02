@@ -41,5 +41,5 @@ fi
 # Run tests
 if [ "$1" = "-e" ]; then
   echo "Running..."
-  node tests/main.cjs
+  node external/main.cjs
 fi

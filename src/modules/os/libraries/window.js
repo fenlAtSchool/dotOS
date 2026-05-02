@@ -21,6 +21,15 @@ export default {
                 return (this.dim[0] * v[0]) + v[1]
             }
             /**
+             * Set a pixel
+             * @param {Number} x X Value
+             * @param {Number} y Y Value
+             * @param {Number} v Value to set to
+             */
+            setPixel(x, y, v){
+                this.im[this.dim[0] * x + y] = v
+            }
+            /**
              * Shade the outlines of a window.
              * @param {Number} color - The color of the outlines
              */
