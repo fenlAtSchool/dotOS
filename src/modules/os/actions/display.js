@@ -17,7 +17,7 @@ export default {
                 height = 0.05
                 partition = 8
                 row = 120
-                pos = [0, 1.8, -3.51]
+                pos = [0, 1.6, 3.51]
                 /**
                  * @ignore
                  * @memberof Display

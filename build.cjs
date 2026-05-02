@@ -127,9 +127,5 @@ async function main() {
         }
     }
     await fs.writeFile('./build/files.cjs', dataContents)
-    let header = await import('./src/header.js')
-    header = header.default.func.toString()
-    header = header.slice(header.indexOf('{') + 1, header.lastIndexOf('}'))
-    await fs.writeFile('./build/TEST_unified.cjs', header + '\n' + worldContents + '\n' + dataContents + '\n' + codeContents)
 }
 main()
