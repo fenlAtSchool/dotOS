@@ -1,10 +1,10 @@
 export default {
     info: {
-        name: 'display',
+        name: 'screen',
         type: 'os',
         version: '1.0.0',
         source: 'github.com/tendergalaxy/dotOS/blob/main/src/modules/display.js',
-        requirements: ['FS-async', 'async', 'data', 'jsonLoad']
+        requirements: ['FS-async', 'async', 'drive', 'jsonLoad']
     },
     onLoad() {
         initDisplay = new Thread(function* () {

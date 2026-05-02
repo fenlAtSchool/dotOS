@@ -1,15 +1,16 @@
 NAMES AND ACTIONS
     os
         actions
-            display.js            - display             - Display
-            mountDrive.js         - data                - Prepare the drive and load files
+            display.js            - screen             - Display
+            mountDrive.js         - drive                - Prepare the drive and load files
             userTracker.js        - user                - Track the user
         libraries
             async.js              - async               - Thread class
             CFF.js                - CFF                 - Custom file formats
-            DNU-bigArray.js       - depr                - Large arrays without memory errors
+            DNU-bigArray.js       - bigArray                - Large arrays without memory errors (Deprecated)
             FS-async.js           - FS-async            - Async FS Api
-            jsonLoad.js           - jsonLoad            - Load JSON files (Soon to be deprecated)
+            terminal.js           - terminal            - Terminal commands
+            jsonLoad.js           - jsonLoad            - Load JSON files (Deprecated)
             utils.js              - utils               - Utilities (Typescript, Parse, etc.)
             window.js             - window              - Windows within display
     worldcode

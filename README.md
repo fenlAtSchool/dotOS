@@ -20,3 +20,24 @@ Due to my bad coding skill, only one option can be selected at a time. Sorry!
 
 ## Info
 The code is JSDoc-ifiable.
+
+## Structure
+
+src : Source code
+    data : Data that DotOS uses
+        filetypes/impl : Implementations of filetypes
+    modules : DotOS Modules
+        worldcode : Worldcode
+        os : Codeblock
+            actions : Daemons
+            libraries : Libraries
+            thlrequirenames.txt : Names of files and their corresponding library names.
+        info.txt : Information
+external: External scripts
+    converters : Converters from standard formats to DotOS-friendly formats
+        in : Input to converters
+        out : Output from converters
+    api.js : API Implementation
+    callbacks.json : Callbacks
+    main.cjs : Main launcher
+    testscript.cjs : Test script

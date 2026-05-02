@@ -1,3 +1,0 @@
-mountDrive - drive
-display - screen
-window - window

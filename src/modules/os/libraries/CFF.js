@@ -4,7 +4,7 @@ export default {
 		type: 'os',
 		version: '1.0.0',
 		source: 'github.com/fenlAtSchool/dotOS/blob/main/src/modules/CFF.js',
-		requirements: ['jsonLoad', 'FS-async', 'async']
+		requirements: ['FS-async', 'async']
 	},
 	onLoad() {
 		const GeneratorFunction = Object.getPrototypeOf(function*(){}).constructor

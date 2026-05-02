@@ -1,6 +1,6 @@
 export default {
 	info: {
-		name: 'data',
+		name: 'drive',
 		type: 'os',
 		version: '1.0.0',
 		source: 'github.com/tendergalaxy/dotos/blob/main/src/modules/mountDrive.js',
