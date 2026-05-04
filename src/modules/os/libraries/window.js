@@ -15,10 +15,19 @@ export default {
                 this.dim = dim
                 this.pos = pos
                 this.im = new Uint8Array(this.dim[0] * this.dim[1])
-                this.im.fill(137)
+                this.im.fill(113)
             }
             ltoi(...v){
                 return (this.dim[0] * v[0]) + v[1]
+            }
+            drawImage(img, pos){
+                const width = img[0].length
+                const height = img.length
+                for(let i = 0; i < height; i++){
+                    for(let j = 0; j < width; j++){
+                        this.im[(pos[1] + i) * this.dim[0] + pos[0] + j] = img[i][j]
+                    }
+                }
             }
             /**
              * Set a pixel
@@ -70,7 +79,7 @@ export default {
              * @param {{colors?:Number[],kerning?:true,wraptoleft?:false}} - Style
              * @returns {void}
              */
-            drawString(pos, str, { colors = [137, 0], wrap = true, wraptoleft = false } = {}){
+            drawString(pos, str, { colors = [113, 0], wrap = true, wraptoleft = false } = {}){
                 let npos = pos.slice()
                 for(let i = 0; i < str.length; i++){
                     npos[0] += 4

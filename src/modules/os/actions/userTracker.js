@@ -23,10 +23,10 @@ export default {
 		})*/
 		globalThis.dotOS.updateUserPositions = function () {
 			globalThis.dotOS.user.pos = api.getPosition(dotOS.user.id)
-			if(dotOS.user.pos[1] > 0){
+			if(dotOS.user.pos[1] > 1){
 				dotOS.user.input.spacebar = dotOS.user.config.keyHoldRate
 			}
-			api.setPosition(dotOS.user.id, [0,0,0])
+			api.setPosition(dotOS.user.id, [0,1,0])
 		}
 		globalThis.dotOS.getPressedKeys = function(){
 			return dotOS.user.input
@@ -36,7 +36,7 @@ export default {
 				return [a[0] + b[0], a[1] + b[1], a[2] + b[2]]
 			}
 			dotOS.user.cam = add(dotOS.user.cam, api.getPlayerFacingInfo(dotOS.user.id).dir)
-			api.setCameraDirection(dotOS.user.id, [1, 0, 0])
+			api.setCameraDirection(dotOS.user.id, [0, 0, 1])
 		}
 		thl.setInterval(function () {
 			dotOS.updateUserPositions()

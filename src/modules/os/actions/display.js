@@ -17,7 +17,7 @@ export default {
                 height = 0.05
                 partition = 8
                 row = 120
-                pos = [0, 1.6, 3.51]
+                pos = [0, 1.45, 6.82]
                 /**
                  * @ignore
                  * @memberof Display
@@ -26,7 +26,7 @@ export default {
                 constructor(res) {
                     this.res = res || [256, 120]
                     this.buffer = new Uint8Array(this.res[0] * this.res[1])
-                    this.buffer.fill(137)
+                    this.buffer.fill(113)
                     /*this.pixels = new Proxy(this.buffer, {
                         set: (t, i, v) => (t[i] = v, this.hasChanged = true)
                     })*/

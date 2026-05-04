@@ -17,14 +17,14 @@ export default {
 		return chestInfo[pos[0]]?.[pos[1]]?.[pos[2]]?.[idx] || ''
 	},
 	setDirectionArrow(pid, id, pos, val){
-		pos = [Math.round(pos[0]/1.6)+4, Math.round(pos[1]*20) - 33]
-		console.log(pos)
+		pos = [Math.round(pos[0]/1.6)+4, Math.round(pos[1]*20) - 30]
+		//console.log(pos)
 		screen[119 - pos[1]].splice(32 * pos[0], 32, ...val)
 	},
 	terminalDrawScreen(){
 		screen.forEach(i => console.log(i.map(j => 
 			chalk.hex(`#${convert.keyword.hex(j.style.color.toLowerCase())}`)(j.str)
-		).join('')))
+		).flatMap(v => [v, v]).join('')))
 	},
 	clearDirectionArrow(){},
 	setClientOption(){},

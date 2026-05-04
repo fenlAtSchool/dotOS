@@ -31,12 +31,13 @@ src : Source code
         os : Codeblock
             actions : Daemons
             libraries : Libraries
-            thlrequirenames.txt : Names of files and their corresponding library names.
         info.txt : Information
 external: External scripts
     converters : Converters from standard formats to DotOS-friendly formats
+        test : Test files
         in : Input to converters
         out : Output from converters
+        *.js : Converters
     api.js : API Implementation
     callbacks.json : Callbacks
     main.cjs : Main launcher

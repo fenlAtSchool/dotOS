@@ -33,5 +33,13 @@
     api.terminalDrawScreen()
 }())*/
 new Thread(function*(){
-    
+    yield* thl.require('drive')
+    yield* thl.require('screen')
+    yield* thl.require('window')
+    let win = new Win([120, 120], [0,0])
+    win.drawImage(yield* execFile('dotOS/data/baboon.dui'), [2, 2])
+    yield* win.render()
+    display.drawDisplay()
+    yield* thl.waitUntil(() => display.isIdle())
+    api.terminalDrawScreen()
 }())
